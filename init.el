@@ -41,11 +41,9 @@ This function should only modify configuration layer settings."
      ;;
      ;; Layers added in alphabetic order
 
-
      ;; Enable asciidoc layer for editing asciidoc content
      ;; Useful for docs.cider.mx editing
      asciidoc
-
      ;; Add tool tips to show doc string of functions
      ;; Show snippets in the autocompletion popup
      ;; Show suggestions by most commonly used
@@ -55,69 +53,47 @@ This function should only modify configuration layer settings."
                       auto-completion-enable-sort-by-usage t)
      ;; To have auto-completion on as soon as you start typing
      ;; (auto-completion :variables auto-completion-idle-delay nil)
-
      ;; https://develop.spacemacs.org/layers/+lang/clojure/README.html
      (clojure :variables
               clojure-toplevel-inside-comment-form t
               cider-overlays-use-font-lock t
               clojure-enable-linters 'clj-kondo
               cider-preferred-build-tool 'clojure-cli)
-
-     ;; SPC a L displays key and command history in a separate buffer
-     command-log
-
      ;; Nyan cat tells you where you are in your file
      ;; :variables
      ;; colors-enable-nyan-cat-progress-bar (display-graphic-p)
      colors
-
      ;; Tools to work with comma separate values
      ;; Used for data science files
      ;; https://develop.spacemacs.org/layers/+lang/csv/README.html
      csv
-
      (elfeed :variables
              rmh-elfeed-org-files (list "~/Documents/org-data/my-feeds.org")
-             elfeed-db-directory "~/Dropbox/.elfeed")
-
+             elfeed-db-directory "~/Dropbox/.elfeed"
+             elfeed-enable-goodies nil)
      ;; For Spacemacs configuration files and packages
      emacs-lisp
-
      ;; Include emojis into everything
      emoji
-
      epub
-
      ;; SPC g s opens Magit git client full screen (q restores previous layout)
      ;; refine hunk 'all highlights characters changed on each line
      (git :variables
           git-magit-status-fullscreen t
           magit-diff-refine-hunk 'all)
-
      ;; SPC g h to use GitHub repositories
      ;; SPC g g to use GitHub Gists
      github
-
      ;; graphviz - open-source graph declaration system
      ;; Used to generated graphs of Clojure project dependencies
      ;; https://develop.spacemacs.org/layers/+lang/graphviz/README.html
      graphviz
-
-     ;; GNU Global is a source code tagging system
-     ;; It queries symbol locations in source code, such as definitions or references
-     ;; `sudo apt install ctags` for Clojure support
-     ;; https://develop.spacemacs.org/layers/+tags/gtags/README.html
-     ;; (gtags :variables
-     ;;        gtags-enable-by-default t)
-
      ;; helm-follow-mode sticky - remembers use of C-c C-f
      ;; - follow mode previews when scrolling through a helm list
      ;; (setq helm-follow-mode-persistent t)
      (helm :variables
            helm-follow-mode-persistent t)
-
      html
-     ;; javascript
      (javascript :variables
                  js2-mode-show-strict-warnings nil
                  javascript-import-tool 'import-js
@@ -129,15 +105,12 @@ This function should only modify configuration layer settings."
                  js-indent-level 2
                  javascript-repl `nodejs
                  js2-include-node-externs t)
-
      (json :variables
            json-fmt-tool 'prettier
            json-fmt-on-save t
            json-backend 'lsp)
-
      latex
      lsp
-
      markdown
      (mu4e :variables
            mu4e-installation-path (if (spacemacs/system-is-mac)
@@ -145,11 +118,9 @@ This function should only modify configuration layer settings."
                                     "/usr/local/share/emacs/site-lisp/mu4e")
            ;; mu4e-enable-async-operations t
            mu4e-enable-mode-line t)
-
      ;; Editing multiple lines of text concurrently
      ;; `g r' menu in Emacs normal state
      multiple-cursors
-
      (org :variables
           org-enable-github-support t
           org-enable-bootstrap-support t
@@ -165,28 +136,9 @@ This function should only modify configuration layer settings."
           org-journal-carryover-items "TODO=\"TODO\"|TODO=\"DOING\"|TODO=\"BLOCKED\"|TODO=\"REVIEW\"")
      prettier
      restclient
-
      ;; Configuration: https://github.com/seagle0128/doom-modeline#customize
-     (spacemacs-modeline :variables
-                         doom-modeline-height 12
-                         doom-modeline-major-mode-color-icon t
-                         doom-modeline-buffer-file-name-style 'relative-to-project
-                         doom-modeline-display-default-persp-name t
-                         doom-modeline-minor-modes nil
-                         doom-modeline-modal-icon nil)
-
      (sql :variables
           sql-capitalize-keywords t)
-
-     ;; Text-based file manager with preview
-     ;; SPC a r
-     (ranger :variables
-             ranger-show-preview t
-             ranger-show-hidden t
-             ranger-cleanup-eagerly t
-             ranger-cleanup-on-disable t
-             ranger-ignored-extensions '("mkv" "flv" "iso" "mp4"))
-
      ;; SPC ' runs eshell in a popup buffer
      ;; To run your terminal shell, add
      ;; shell-default-shell 'multi-term
@@ -194,52 +146,32 @@ This function should only modify configuration layer settings."
             shell-default-shell 'eshell
             shell-default-height 30
             shell-default-position 'bottom)
-
      ;; spacemacs-layouts layer added to set variables
      ;; SPC TAB restricted to current layout buffers
      ;; Kill buffers when killing layer - SPC l x
      (spacemacs-layouts :variables
                         spacemacs-layouts-restrict-spc-tab t
                         persp-autokill-buffer-on-remove 'kill-weak)
-
      ;; Spell as you type with Flyspell package,
      ;; requires external command - ispell, hunspell, aspell
      ;; SPC S menu, SPC S s to check current word
      spell-checking
-
      ;; Use original flycheck fringe bitmaps
      (syntax-checking :variables
                       syntax-checking-use-original-bitmaps t)
-
-     ;; Visual file manager - `SPC p t'
-     ;; treemacs-no-png-images t removes file and directory icons
-     (treemacs :variables
-               treemacs-indentation 1
-               treemacs-use-filewatch-mode t
-               treemacs-use-follow-mode t)
-
-     ;; Customise the Spacemacs themes
-     ;; https://develop.spacemacs.org/layers/+themes/theming/README.html
-     ;; Code in dotspacemacs/user-init to reduce size of modeline
-     ;; theming
-
      ;; Support font ligatures (fancy symbols) in all modes
      ;; 'prog-mode for only programming languages
      ;; including text-mode may cause issues with org-mode and magit
      (unicode-fonts :variables
                     unicode-fonts-enable-ligatures t
                     unicode-fonts-ligature-modes '(prog-mode))
-
      ;; Highlight changes in buffers
      ;; SPC g . transient state for navigating changes
      (version-control :variables
                       version-control-diff-tool 'diff-hl
                       version-control-global-margin t)
-
      yaml
-
      ) ;; End of dotspacemacs-configuration-layers
-
 
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -289,7 +221,7 @@ It should only modify the values of Spacemacs settings."
    ;; To load it when starting Emacs add the parameter `--dump-file'
    ;; when invoking Emacs 27.1 executable on the command line, for instance:
    ;;   ./emacs --dump-file=$HOME/.emacs.d/.cache/dumps/spacemacs-27.1.pdmp
-   ;; (default spacemacs-27.1.pdmp)
+   ;; (default (format "spacemacs-%s.pdmp" emacs-version))
    dotspacemacs-emacs-dumper-dump-file (format "spacemacs-%s.pdmp" emacs-version)
 
    ;; If non-nil ELPA repositories are contacted via HTTPS whenever it's
@@ -319,7 +251,9 @@ It should only modify the values of Spacemacs settings."
 
    ;; If non-nil then Spacelpa repository is the primary source to install
    ;; a locked version of packages. If nil then Spacemacs will install the
-   ;; latest version of packages from MELPA. (default nil)
+   ;; latest version of packages from MELPA. Spacelpa is currently in
+   ;; experimental state please use only for testing purposes.
+   ;; (default nil)
    dotspacemacs-use-spacelpa nil
 
    ;; If non-nil then verify the signature for downloaded Spacelpa archives.
@@ -389,12 +323,9 @@ It should only modify the values of Spacemacs settings."
    ;; with 2 themes variants, one dark and one light)
 
    dotspacemacs-themes '(gotham
-                         doom-gruvbox-light
-                         doom-solarized-light
                          doom-sourcerer
                          kaolin-valley-dark
                          doom-solarized-dark
-                         spacemacs-light
                          spacemacs-dark)
 
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
@@ -566,14 +497,12 @@ It should only modify the values of Spacemacs settings."
    ;;   :size-limit-kb 1000)
    ;; When used in a plist, `visual' takes precedence over `relative'.
    ;; (default nil)
-   dotspacemacs-line-numbers '(:visual t
-                               :disabled-for-modes dired-mode
+   dotspacemacs-line-numbers '(:disabled-for-modes dired-mode
                                                    doc-view-mode
                                                    pdf-view-mode
                                :size-limit-kb 1000)
 
-
-   ;; Code folding method. Possible values are `evil' and `origami'.
+   ;; Code folding method. Possible values are `evil', `origami' and `vimish'.
    ;; (default 'evil)
    dotspacemacs-folding-method 'evil
 
@@ -604,7 +533,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; If non-nil, advise quit functions to keep server open when quitting.
    ;; (default nil)
-   dotspacemacs-persistent-server t
+   dotspacemacs-persistent-server nil
 
    ;; List of search tool executable names. Spacemacs uses the first installed
    ;; tool of the list. Supported tools are `rg', `ag', `pt', `ack' and `grep'.
@@ -649,8 +578,8 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-use-clean-aindent-mode t
 
    ;; If non-nil shift your number row to match the entered keyboard layout
-   ;; (only in insert mode). Currently the keyboard layouts
-   ;; (qwerty-us qwertz-de) are supported.
+   ;; (only in insert state). Currently supported keyboard layouts are:
+   ;; `qwerty-us', `qwertz-de' and `querty-ca-fr'.
    ;; New layouts can be added in `spacemacs-editing' layer.
    ;; (default nil)
    dotspacemacs-swap-number-row nil
@@ -756,9 +685,7 @@ This function is called at the very end of Spacemacs initialization."
      ("TEMP" . "#b1951d")
      ("FIXME" . "#dc752f")
      ("XXX+" . "#dc752f")
-     ("\\?\\?\\?+" . "#dc752f")))
- '(package-selected-packages
-   '(tide typescript-mode tern skewer-mode multiple-cursors js2-mode import-js grizzl helm-gtags ggtags dap-mode posframe bui lsp-mode dash-functional counsel-gtags counsel swiper ivy add-node-modules-path yaml-mode ranger org-re-reveal org-journal ligature kaolin-themes autothemer graphviz-dot-mode emojify emoji-cheat-sheet-plus doom-themes doom-modeline shrink-path diff-hl company-statistics company-quickhelp company-emoji command-log-mode adoc-mode markup-faces yasnippet-snippets xterm-color ws-butler writeroom-mode winum which-key web-mode web-beautify vterm volatile-highlights vi-tilde-fringe uuidgen use-package unicode-fonts undo-tree treemacs-projectile treemacs-persp treemacs-magit treemacs-icons-dired treemacs-evil toc-org terminal-here tagedit systemd symon symbol-overlay sublime-themes string-inflection sqlup-mode sql-indent spaceline-all-the-icons smeargle slim-mode shell-pop seti-theme scss-mode sass-mode restclient-helm restart-emacs rainbow-mode rainbow-identifiers rainbow-delimiters pug-mode prettier-js pcre2el password-generator paradox ox-twbs ox-gfm ox-epub overseer orgit org-superstar org-rich-yank org-projectile org-present org-pomodoro org-mime org-download org-cliplink org-brain open-junk-file ob-restclient ob-http nov nodejs-repl nameless multi-term mu4e-maildirs-extension mu4e-alert move-text modus-vivendi-theme mmm-mode markdown-toc magit-svn magit-section magit-gitflow madhat2r-theme macrostep lsp-ui lsp-treemacs lsp-origami lorem-ipsum livid-mode link-hint json-navigator json-mode js2-refactor js-doc ir-black-theme insert-shebang indent-guide impatient-mode hybrid-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hemisu-theme helpful helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org-rifle helm-org helm-mu helm-mode-manager helm-make helm-lsp helm-ls-git helm-gitignore helm-git-grep helm-flx helm-descbinds helm-css-scss helm-company helm-cider helm-c-yasnippet helm-ag grandshell-theme gotham-theme google-translate golden-ratio gnuplot gmail-message-mode gitignore-templates github-search github-clone gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ gist gh-md fuzzy forge font-lock+ flyspell-correct-helm flymd flycheck-pos-tip flycheck-package flycheck-joker flycheck-elsa flycheck-clj-kondo flycheck-bashate flx-ido fish-mode fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eshell-z eshell-prompt-extras esh-help engine-mode emr emmet-mode elisp-slime-nav elfeed-org elfeed-goodies editorconfig edit-server dumb-jump dotenv-mode diminish devdocs define-word csv-mode company-web company-shell company-restclient company-reftex company-auctex column-enforce-mode color-identifiers-mode clojure-snippets clj-refactor clean-aindent-mode cider-eval-sexp-fu centered-cursor-mode browse-at-remote auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile alect-themes aggressive-indent ace-link ace-jump-helm-line ac-ispell)))
+     ("\\?\\?\\?+" . "#dc752f"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
