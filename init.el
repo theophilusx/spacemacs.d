@@ -48,17 +48,23 @@ This function should only modify configuration layer settings."
      ;; Show snippets in the autocompletion popup
      ;; Show suggestions by most commonly used
      (auto-completion :variables
+                      auto-completion-complete-with-key-sequence-delay 0.1
                       auto-completion-enable-help-tooltip t
+                      auto-completion-idle-delay 0.4
                       auto-completion-enable-snippets-in-popup t
-                      auto-completion-enable-sort-by-usage t)
+                      auto-completion-enable-sort-by-usage t
+                      auto-completion-return-key-behavior 'complete
+                      auto-completion-tab-key-behavior 'cycle)
      ;; To have auto-completion on as soon as you start typing
      ;; (auto-completion :variables auto-completion-idle-delay nil)
      ;; https://develop.spacemacs.org/layers/+lang/clojure/README.html
      (clojure :variables
+              clojure-enable-fancify-symbols t
+              clojure-enable-clj-refactor t
               clojure-toplevel-inside-comment-form t
               cider-overlays-use-font-lock t
               clojure-enable-linters 'clj-kondo
-              cider-preferred-build-tool 'clojure-cli)
+              clojure-enable-linters '(clj-kondo joker))
      ;; Nyan cat tells you where you are in your file
      ;; :variables
      ;; colors-enable-nyan-cat-progress-bar (display-graphic-p)
@@ -116,7 +122,6 @@ This function should only modify configuration layer settings."
            mu4e-installation-path (if (spacemacs/system-is-mac)
                                       "/usr/local/share/emacs/site-lisp/mu/mu4e"
                                     "/usr/local/share/emacs/site-lisp/mu4e")
-           ;; mu4e-enable-async-operations t
            mu4e-enable-mode-line t)
      ;; Editing multiple lines of text concurrently
      ;; `g r' menu in Emacs normal state
@@ -613,18 +618,22 @@ It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
   (add-to-list 'load-path (expand-file-name "~/.spacemacs.d"))
-  ;; (require 'practicalli-init)
+
   (setq theming-modifications
         '((spacemacs-dark (default :background "#030303")
                           (font-lock-comment-face :background "#030303"))
           (alect-black (font-lock-type-face :foreground "dark orange")
                        (font-lock-builtin-face :foreground "spring green"))
           (gotham (mode-line :inherit variable-pitch))))
+
   (add-to-list 'exec-path "/home/tim/.npm-global/bin" t)
+
   (defconst *is-a-mac* (eq system-type 'darwin)
     "T if emacs is running under OSX, nil otherwise.")
+
   (defvar *run-emacspeak* t)
 
+  (require 'my-org-preload)
   )  ;; End of dotspacemacs/user-int
 
 (defun dotspacemacs/user-load ()
@@ -641,19 +650,57 @@ configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
 
- (require 'practicalli-config)
- (if (spacemacs/system-is-mac)
-     (set-fontset-font t 'unicode (font-spec :family "Apple Color Emoji"))
-   (set-fontset-font t 'unicode (font-spec :family "Noto Color Emoji")))
- (when (spacemacs/system-is-mac)
-   (mac-auto-operator-composition-mode))
- (when *run-emacspeak*
-   (require 'my-emacspeak))
- (require 'my-mail)
- (setq browse-url-browser-function 'eww-browse-url)
- (setq browse-url-secondary-browser-function 'browse-url-default-browser)
+  ;; Emacs text rendering optimizations
+  ;; https://200ok.ch/posts/2020-09-29_comprehensive_guide_on_handling_long_lines_in_emacs.html
+  ;; Only render text left to right
+  (setq-default bidi-paragraph-direction 'left-to-right)
+  ;; Disable Bidirectional Parentheses Algorithm
+  (if (version<= "27.1" emacs-version)
+      (setq bidi-inhibit-bpa t))
 
+  ;; Set new location for file bookmarks, SPC f b
+  ;; Default: ~/.emacs.d/.cache/bookmarks
+  (setq bookmark-default-file "~/.spacemacs.d/bookmarks")
 
+  ;; Set new location for recent save files
+  ;; Default: ~/.emacs.d/.cache/recentf
+  ;; (setq bookmark-default-file "~/.spacemacs.d/recentf")
+  (setq recentf-save-file "~/.spacemacs.d/recentf")
+
+  ;; replace / search with helm-swoop in Evil normal state
+  (evil-global-set-key 'normal "/" 'helm-swoop)
+
+  ;; Safe structural editing
+  ;; for all major modes
+  (spacemacs/toggle-evil-safe-lisp-structural-editing-on-register-hooks)
+
+  ;; Changing auto indent size for languages in html layer (web mode) to 2 (defaults to 4)
+  (defun web-mode-indent-2-hook ()
+    "Indent settings for languages in Web mode, markup=html, css=css, code=javascript/php/etc."
+    (setq web-mode-markup-indent-offset 2)
+    (setq web-mode-css-indent-offset  2)
+    (setq web-mode-code-indent-offset 2))
+                                        ;ss;
+  (add-hook 'web-mode-hook  'web-mode-indent-2-hook)
+
+  ;; (if (spacemacs/system-is-mac)
+  ;;     (set-fontset-font t 'unicode (font-spec :family "Apple Color Emoji"))
+  ;;   (set-fontset-font t 'unicode (font-spec :family "Noto Color Emoji")))
+
+  (when (spacemacs/system-is-mac)
+    (mac-auto-operator-composition-mode))
+
+  (when *run-emacspeak*
+    (require 'my-emacspeak))
+
+  (require 'my-org)
+  (require 'my-magit)
+  (require 'my-mail)
+  (require 'my-clojure)
+  (require 'my-eshell)
+
+  (setq browse-url-browser-function 'eww-browse-url)
+  (setq browse-url-secondary-browser-function 'browse-url-default-browser)
   )   ;; End of dot-spacemacs/user-config
 
 
