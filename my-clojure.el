@@ -6,6 +6,9 @@
 ;; https://github.com/clojure-emacs/clojure-mode#vertical-alignment
 (setq clojure-align-forms-automatically t)
 
+(setq clojure-toplevel-inside-comment-form t
+      cider-overlays-use-font-lock t)
+
 ;; toggle reader macro sexp comment
 ;; toggles the #_ characters at the start of an expression
 (defun clojure-toggle-reader-comment-sexp ()

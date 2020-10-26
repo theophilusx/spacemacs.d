@@ -55,15 +55,9 @@ This function should only modify configuration layer settings."
                       auto-completion-enable-sort-by-usage t
                       auto-completion-return-key-behavior 'complete
                       auto-completion-tab-key-behavior 'cycle)
-     ;; To have auto-completion on as soon as you start typing
-     ;; (auto-completion :variables auto-completion-idle-delay nil)
-     ;; https://develop.spacemacs.org/layers/+lang/clojure/README.html
      (clojure :variables
               clojure-enable-fancify-symbols t
               clojure-enable-clj-refactor t
-              clojure-toplevel-inside-comment-form t
-              cider-overlays-use-font-lock t
-              clojure-enable-linters 'clj-kondo
               clojure-enable-linters '(clj-kondo joker))
      ;; Nyan cat tells you where you are in your file
      ;; :variables
@@ -131,15 +125,14 @@ This function should only modify configuration layer settings."
           org-enable-bootstrap-support t
           org-enable-reveal-js-support t
           org-want-todo-bindings t
-          org-enable-org-journal-support t
-          org-journal-dir "~/Projects/journal/"
-          org-journal-file-format "%Y-%m-%d"
-          org-journal-date-prefix "#+TITLE: "
-          org-journal-date-format "%A, %B %d %Y"
-          org-journal-time-prefix "* "
-          org-journal-time-format ""
-          org-journal-carryover-items "TODO=\"TODO\"|TODO=\"DOING\"|TODO=\"BLOCKED\"|TODO=\"REVIEW\"")
+          org-enable-org-journal-support t)
      prettier
+     (ranger :variables
+             ranger-show-preview t
+             ranger-show-hidden t
+             ranger-cleanup-eagerly t
+             ranger-cleanup-on-disable t
+             ranger-ignored-extensions '("mkv" "flv" "iso" "mp4"))
      restclient
      ;; Configuration: https://github.com/seagle0128/doom-modeline#customize
      (sql :variables
@@ -154,9 +147,9 @@ This function should only modify configuration layer settings."
      ;; spacemacs-layouts layer added to set variables
      ;; SPC TAB restricted to current layout buffers
      ;; Kill buffers when killing layer - SPC l x
-     (spacemacs-layouts :variables
-                        spacemacs-layouts-restrict-spc-tab t
-                        persp-autokill-buffer-on-remove 'kill-weak)
+     ;; (spacemacs-layouts :variables
+     ;;                    spacemacs-layouts-restrict-spc-tab t
+     ;;                    persp-autokill-buffer-on-remove 'kill-weak)
      ;; Spell as you type with Flyspell package,
      ;; requires external command - ispell, hunspell, aspell
      ;; SPC S menu, SPC S s to check current word
@@ -164,6 +157,12 @@ This function should only modify configuration layer settings."
      ;; Use original flycheck fringe bitmaps
      (syntax-checking :variables
                       syntax-checking-use-original-bitmaps t)
+     (treemacs :variables
+               treemacs-position 'right
+               treemacs-width 25
+               treemacs-indentation 1
+               treemacs-use-filewatch-mode t
+               treemacs-use-follow-mode t)
      ;; Support font ligatures (fancy symbols) in all modes
      ;; 'prog-mode for only programming languages
      ;; including text-mode may cause issues with org-mode and magit
@@ -304,7 +303,6 @@ It should only modify the values of Spacemacs settings."
    ;; List sizes may be nil, in which case
    ;; `spacemacs-buffer-startup-lists-length' takes effect.
    dotspacemacs-startup-lists '((recents . 9)
-                                (todos . 9)
                                 (projects . 7)
                                 (bookmarks . 24))
 
@@ -385,15 +383,15 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-distinguish-gui-tab nil
 
    ;; Name of the default layout (default "Default")
-   dotspacemacs-default-layout-name "Global"
+   dotspacemacs-default-layout-name "Default"
 
    ;; If non-nil the default layout name is displayed in the mode-line.
    ;; (default nil)
-   dotspacemacs-display-default-layout t
+   dotspacemacs-display-default-layout nil
 
    ;; If non-nil then the last auto saved layouts are resumed automatically upon
    ;; start. (default nil)
-   dotspacemacs-auto-resume-layouts t
+   dotspacemacs-auto-resume-layouts nil
 
    ;; If non-nil, auto-generate layout name when creating new layouts. Only has
    ;; effect when using the "jump to layout by number" commands. (default nil)
@@ -632,8 +630,6 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
     "T if emacs is running under OSX, nil otherwise.")
 
   (defvar *run-emacspeak* t)
-
-  (require 'my-org-preload)
   )  ;; End of dotspacemacs/user-int
 
 (defun dotspacemacs/user-load ()
@@ -683,9 +679,9 @@ before packages are loaded."
                                         ;ss;
   (add-hook 'web-mode-hook  'web-mode-indent-2-hook)
 
-  ;; (if (spacemacs/system-is-mac)
-  ;;     (set-fontset-font t 'unicode (font-spec :family "Apple Color Emoji"))
-  ;;   (set-fontset-font t 'unicode (font-spec :family "Noto Color Emoji")))
+  (if (spacemacs/system-is-mac)
+      (set-fontset-font t 'unicode (font-spec :family "Apple Color Emoji"))
+    (set-fontset-font t 'unicode (font-spec :family "Noto Color Emoji")))
 
   (when (spacemacs/system-is-mac)
     (mac-auto-operator-composition-mode))
